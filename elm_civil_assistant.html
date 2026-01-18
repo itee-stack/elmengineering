@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELM ENGINEERING AND PROJECTS LIMITED - Quality Meets Structural Integrity</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif; 
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #333; 
+            padding: 0;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: #fff; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3); 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #0078d7 0%, #005fa3 100%);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .header .emoji { font-size: 1.4em; }
+        .header .tagline { 
+            font-size: 0.95em; 
+            font-style: italic; 
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+        .header .company { 
+            font-size: 0.85em; 
+            opacity: 0.85;
+        }
+        #chat { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 16px; 
+            background: #fafafa;
+            border: 1px solid #eee;
+        }
+        .message {
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            word-wrap: break-word;
+        }
+        .user {
+            background: #e7f3ff;
+            color: #0078d7;
+            border-left: 4px solid #0078d7;
+            text-align: right;
+        }
+        .ai {
+            background: #f0f0f0;
+            color: #333;
+            border-left: 4px solid #28a745;
+        }
+        .ai strong { color: #0078d7; }
+        .ai ul { margin: 8px 0 8px 20px; }
+        .ai li { margin-bottom: 4px; }
+        .ai.empathetic { background: #fff6f6; border-left-color: #ff6b6b; }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background: #0078d7;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #005fa3;
+            box-shadow: 0 2px 8px rgba(0,120,215,0.3);
+        }
+        .btn-secondary {
+            background: #eee;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+        .btn-secondary:hover {
+            background: #ddd;
+        }
+        .btn-success {
+            background: #28a745;
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #218838;
+            box-shadow: 0 2px 8px rgba(40,167,69,0.3);
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+            box-shadow: 0 2px 8px rgba(220,53,69,0.3);
+        }
+        .input-group {
+            display: flex;
+            gap: 8px;
+            padding: 16px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+        }
+        #orderInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.95em;
+        }
+        #sendBtn, #voiceBtn {
+            padding: 10px 16px;
+            background: #0078d7;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        #sendBtn:hover, #voiceBtn:hover {
+            background: #005fa3;
+        }
+        .footer {
+            padding: 12px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #999;
+            border-top: 1px solid #eee;
+        }
+        #enableAudioBtn {
+            position: fixed;
+            right: 12px;
+            bottom: 12px;
+            padding: 10px 14px;
+            background: #ff9800;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-weight: 500;
+        }
+        #enableAudioBtn:hover {
+            background: #f57c00;
+        }
+        .safety-alert {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+        }
+        .engineering-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        @media (max-width: 600px) {
+            .container { height: auto; min-height: 100vh; }
+            .header h1 { font-size: 1.4em; }
+            .header .tagline { font-size: 0.85em; }
+            .button-group { gap: 4px; }
+            button { padding: 6px 10px; font-size: 0.85em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ELM ENGINEERING AND PROJECTS LIMITED</h1>
+            <div class="tagline">Where Quality Meets Structural Integrity</div>
+            <div class="company">ELM ENGINEERING AND PROJECTS LIMITED</div>
+        </div>
+        
+        <div id="chat"></div>
+        
+        <div class="input-group">
+            <input type="text" id="orderInput" placeholder="Ask about foundations, materials, or your project..." autocomplete="off" />
+            <button id="sendBtn">Send</button>
+            <button type="button" id="voiceBtn" style="min-width: 44px;">🎤</button>
+        </div>
+        
+        <div class="footer">
+            Powered by ELM Engineering and Project | Structural Excellence Since 2020
+        </div>
+    </div>
+
+    <!-- Blockchain support removed: ethers.js CDN removed -->
+    <script>
+        const chat = document.getElementById('chat');
+        const orderForm = document.querySelector('.input-group');
+        const orderInput = document.getElementById('orderInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const voiceBtn = document.getElementById('voiceBtn');
+
+        // ===== ROBUST SPEECH SYNTHESIS =====
+        let audioEnabled = false;
+        let pendingUtteranceText = null;
+        function speak(text, opts = {}) {
+            if (!('speechSynthesis' in window)) return false;
+            try {
+                if (opts.cancel !== false) window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = opts.lang || 'en-US';
+                utter.rate = typeof opts.rate === 'number' ? opts.rate : 0.95;
+                utter.pitch = typeof opts.pitch === 'number' ? opts.pitch : 1.0;
+                utter.volume = typeof opts.volume === 'number' ? opts.volume : 1.0;
+                utter.onstart = () => {};
+                utter.onend = () => { pendingUtteranceText = null; };
+                utter.onerror = () => { pendingUtteranceText = null; };
+
+                if (!audioEnabled) {
+                    try {
+                        window.speechSynthesis.speak(utter);
+                        audioEnabled = true;
+                        return true;
+                    } catch (e) {
+                        pendingUtteranceText = text;
+                        showEnableAudioOverlay();
+                        return false;
+                    }
+                }
+                window.speechSynthesis.speak(utter);
+                return true;
+            } catch (err) {
+                console.warn('speak error', err);
+                return false;
+            }
+        }
+
+        function showEnableAudioOverlay() {
+            if (document.getElementById('enableAudioBtn')) return;
+            const btn = document.createElement('button');
+            btn.id = 'enableAudioBtn';
+            btn.textContent = '🔊 Enable Audio';
+            btn.onclick = function() {
+                audioEnabled = true;
+                const el = document.getElementById('enableAudioBtn');
+                if (el) el.remove();
+                if (pendingUtteranceText) {
+                    try { speak(pendingUtteranceText, { cancel: false }); pendingUtteranceText = null; } catch(e){}
+                }
+            };
+            document.body.appendChild(btn);
+        }
+
+        // ===== SESSION STATE & CONTEXT =====
+        const sessionState = {
+            projectType: null,
+            floors: null,
+            location: null,
+            soilResults: null,
+            materials: [],
+            stage: 'greeting' // greeting, intent, details, recommendation
+        };
+
+        // ===== TONE & SENSITIVITY ANALYSIS =====
+        function analyzeTone(text){
+            const t = String(text || '').toLowerCase();
+            const urgent = /\b(urgent|immediately|asap|now|right now|please help|emergency)\b/.test(t);
+            const distress = /\b(injur|injured|bleed|bleeding|trapped|collapse|collapsed|danger|help me)\b/.test(t);
+            const anger = /\b(angry|annoyed|frustrat|mad|irritat|upset)\b/.test(t);
+            const polite = /\b(please|thank you|thanks|kindly)\b/.test(t);
+            const profanity = /\b(fuck|shit|damn|bastard|idiot)\b/.test(t);
+            const negative = /\b(problem|issue|not working|fail|delay|concern)\b/.test(t);
+            return { urgent, distress, anger, polite, profanity, negative };
+        }
+
+        function handleUrgentMessage(userMessage, tone){
+            // High-sensitivity path: immediately advise and offer escalation options
+            const safetyNote = tone.distress || tone.urgent ?
+                `<div class="safety-alert"><strong>Immediate action advised:</strong> If people are injured or there is imminent danger, call your local emergency number now (<strong>EMERGENCY</strong>). Would you like me to notify our on-call team or prepare an incident summary?</div>` : '';
+            appendMessage('ai', safetyNote + `I hear this may be urgent. Please confirm: Are people safe right now?`, [
+                { text: 'I need help now', action: 'urgent-notify', class: 'btn-danger' },
+                { text: 'People safe', action: 'urgent-stable', class: 'btn-secondary' }
+            ]);
+            // escalate internally (here we just set state) -- in production we'd call an API
+            sessionState.lastUrgent = { message: userMessage, detected: tone };
+        }
+
+        // ===== VOICE RECOGNITION =====
+        let recognizing = false;
+        let recognition;
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                orderInput.value = transcript;
+                sendBtn.click();
+            };
+            recognition.onend = function() { recognizing = false; voiceBtn.textContent = '🎤'; };
+        }
+
+        voiceBtn.addEventListener('click', function() {
+            if (recognition && !recognizing) {
+                recognition.start();
+                recognizing = true;
+                voiceBtn.textContent = '🛑';
+            } else if (recognition && recognizing) {
+                recognition.stop();
+                recognizing = false;
+                voiceBtn.textContent = '🎤';
+            }
+        });
+
+        // ===== MESSAGE DISPLAY =====
+        function appendMessage(sender, text, buttons = []) {
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            
+            if (sender === 'ai') {
+                div.innerHTML = text;
+                if (buttons.length > 0) {
+                    const btnGroup = document.createElement('div');
+                    btnGroup.className = 'button-group';
+                    buttons.forEach(btn => {
+                        const btnEl = document.createElement('button');
+                        btnEl.className = btn.class || 'btn-secondary';
+                        btnEl.textContent = btn.text;
+                        btnEl.dataset.action = btn.action;
+                        btnGroup.appendChild(btnEl);
+                    });
+                    div.appendChild(btnGroup);
+                }
+                // Speak the text content (without HTML tags)
+                speak(text.replace(/<[^>]+>/g, ''));
+            } else {
+                div.textContent = text;
+            }
+            
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function appendEmpatheticMessage(text){
+            const div = document.createElement('div');
+            div.className = 'message ai empathetic';
+            div.innerHTML = text;
+            chat.appendChild(div);
+            speak(text.replace(/<[^>]+>/g, ''));
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        // ===== ENGINEERING INTELLIGENCE BLOCKS =====
+
+        // Soil Test Guidance
+        function handleSoilQuery(userInput) {
+            const response = `<strong>Soil Test Analysis:</strong><br>
+            A Standard Penetration Test (SPT) is essential for foundation design. It measures soil bearing capacity and settlement potential. Atterberg limits help classify soil type (clay, silt, sand).<br>
+            <strong>Action:</strong> For your project, I need:
+            <ul>
+            <li>Your project location (city/region)</li>
+            <li>Soil test report (if available)</li>
+            <li>Number of storeys planned</li>
+            </ul>
+            Once I have this, I can recommend the appropriate foundation type.`;
+            
+            appendMessage('ai', response, [
+                { text: 'Upload soil report', action: 'soil-report', class: 'btn-primary' },
+                { text: 'Continue anyway', action: 'continue-design', class: 'btn-secondary' }
+            ]);
+            sessionState.stage = 'soil-details';
+        }
+
+        // Foundation Recommendation
+        function handleFoundationQuery(userInput) {
+            const response = `<strong>Foundation Types & Selection:</strong><br>
+            <ul>
+            <li><strong>Strip Foundation:</strong> Good soil, low-rise (1-3 storeys)</li>
+            <li><strong>Pad Foundation:</strong> Individual columns, moderate soil</li>
+            <li><strong>Raft Foundation:</strong> Weak soil, distribute load evenly</li>
+            <li><strong>Pile Foundation:</strong> Very weak/waterlogged soil, tall buildings</li>
+            </ul>
+            <strong>To recommend the best type for your project, I need:</strong>
+            <ul>
+            <li>Number of floors</li>
+            <li>Soil bearing capacity (from test)</li>
+            <li>Building type (residential/commercial/industrial)</li>
+            </ul>`;
+            
+            appendMessage('ai', response, [
+                { text: '1-2 Storeys', action: 'floors-1-2', class: 'btn-secondary' },
+                { text: '3-5 Storeys', action: 'floors-3-5', class: 'btn-secondary' },
+                { text: '6+ Storeys', action: 'floors-6plus', class: 'btn-secondary' }
+            ]);
+            sessionState.stage = 'foundation-selection';
+        }
+
+        // Concrete Grade Guidance
+        function handleConcreteQuery(userInput) {
+            const response = `<strong>Concrete Grade Selection:</strong><br>
+            <div class="engineering-box">
+            <strong>C20/25:</strong> Light structures, non-structural work<br>
+            <strong>C25/30:</strong> General building (standard), slabs<br>
+            <strong>C30/37:</strong> Beams, columns, heavy duty<br>
+            <strong>C35/45:</strong> High-rise, heavy load zones<br>
+            <strong>C50/60:</strong> Pre-stressed members, special structures
+            </div>
+            What type of structural elements are you planning?`;
+            
+            appendMessage('ai', response, [
+                { text: 'Foundations', action: 'grade-foundation', class: 'btn-secondary' },
+                { text: 'Slabs', action: 'grade-slab', class: 'btn-secondary' },
+                { text: 'Beams & Columns', action: 'grade-beams', class: 'btn-secondary' },
+                { text: 'High-rise', action: 'grade-highrise', class: 'btn-secondary' }
+            ]);
+            sessionState.stage = 'concrete-selection';
+        }
+
+        // Materials Supply
+        function handleMaterialsQuery(userInput) {
+            const response = `<strong>Materials Supply Service:</strong><br>
+            ELM supplies all building materials including:
+            <ul>
+            <li>Cement, Sand, Granite, Blocks</li>
+            <li>Reinforcement Steel (rebar, wire mesh)</li>
+            <li>Timber, Plywood, Hardware</li>
+            <li>Electrical, Plumbing, Roofing</li>
+            <li>Finishing items (tiles, paints)</li>
+            </ul>
+            <strong>To prepare your quotation, I need:</strong>
+            <ul>
+            <li>What materials do you need?</li>
+            <li>Quantities (bags, tonnes, pieces)</li>
+            <li>Delivery location</li>
+            <li>Delivery timeline</li>
+            </ul>`;
+            
+            appendMessage('ai', response, [
+                { text: 'Cement & Aggregates', action: 'mat-concrete', class: 'btn-secondary' },
+                { text: 'Steel & Reinforcement', action: 'mat-steel', class: 'btn-secondary' },
+                { text: 'Blocks & Masonry', action: 'mat-blocks', class: 'btn-secondary' },
+                { text: 'Electrical & Plumbing', action: 'mat-mep', class: 'btn-secondary' }
+            ]);
+            sessionState.stage = 'materials-collection';
+        }
+
+        // BOQ & Estimation
+        function handleBOQQuery(userInput) {
+            const response = `<strong>BOQ Preparation & Cost Estimation:</strong><br>
+            I can help prepare Bill of Quantities based on:
+            <div class="engineering-box">
+            <strong>Required inputs:</strong>
+            <ul>
+            <li>Architectural drawings or site plan</li>
+            <li>Structural design specifications</li>
+            <li>Scope of work (complete or partial)</li>
+            <li>Material unit rates in your location</li>
+            <li>Labour cost assumptions</li>
+            </ul>
+            </div>
+            Would you like to:`;
+            
+            appendMessage('ai', response, [
+                { text: 'Upload drawings', action: 'boq-drawings', class: 'btn-primary' },
+                { text: 'Manual input', action: 'boq-manual', class: 'btn-secondary' },
+                { text: 'Get estimation template', action: 'boq-template', class: 'btn-secondary' }
+            ]);
+            sessionState.stage = 'boq-initiate';
+        }
+
+        // Safety Escalation
+        function handleSafetyIssue(issue) {
+            const safetyResponse = `<div class="safety-alert">
+            <strong>🚨 SAFETY ALERT - STRUCTURAL CONCERN</strong><br>
+            <strong>Issue:</strong> ${issue}<br>
+            <strong>Action Required:</strong> This is a safety-sensitive issue requiring immediate on-site assessment by a qualified structural engineer.<br>
+            <strong>Next Steps:</strong>
+            <ul>
+            <li>Do not proceed without professional inspection</li>
+            <li>Secure the affected area immediately</li>
+            <li>Document the issue with photos/video</li>
+            <li>Contact a Licensed Structural Engineer</li>
+            </ul>
+            </div>
+            I can help prepare a technical summary for your engineer if needed.`;
+            
+            appendMessage('ai', safetyResponse, [
+                { text: 'Prepare Technical Summary', action: 'safety-summary', class: 'btn-danger' },
+                { text: 'Contact Support', action: 'safety-contact', class: 'btn-primary' }
+            ]);
+        }
+
+        // ===== MAIN AI RESPONSE LOGIC =====
+        function aiResponse(userMessage) {
+            const msg = userMessage.toLowerCase();
+
+            // Analyze tone and sensitivity
+            const tone = analyzeTone(userMessage);
+            if (tone.distress || tone.urgent) {
+                handleUrgentMessage(userMessage, tone);
+                return;
+            }
+            if (tone.profanity || tone.anger) {
+                // Empathetic de-escalation
+                appendEmpatheticMessage(`I hear your frustration — I'm here to help and will do my best to resolve this. Could you describe the specific problem or what outcome you need?`);
+                // continue to intent detection after inviting clarification
+            }
+            if (tone.polite && userMessage.length > 12) {
+                appendMessage('ai', `Thank you — I appreciate the context. I'll help you with this.`);
+            }
+
+            // Safety-critical keywords → escalate immediately
+            const safetyKeywords = [
+                'crack', 'collapse', 'settlement', 'failure', 'leak',
+                'slab deflect', 'wall separat', 'foundati fail', 'vibrat'
+            ];
+            const isSafetyCritical = safetyKeywords.some(kw => msg.includes(kw));
+            if (isSafetyCritical) {
+                handleSafetyIssue(userMessage);
+                return;
+            }
+
+            // Intent detection
+            if (msg.includes('soil') || msg.includes('test') || msg.includes('SPT') || msg.includes('bearing')) {
+                handleSoilQuery(userMessage);
+            } else if (msg.includes('foundation') || msg.includes('footing') || msg.includes('raft') || msg.includes('pile')) {
+                handleFoundationQuery(userMessage);
+            } else if (msg.includes('concrete') || msg.includes('grade') || msg.includes('C20') || msg.includes('C30')) {
+                handleConcreteQuery(userMessage);
+            } else if (msg.includes('material') || msg.includes('cement') || msg.includes('steel') || msg.includes('sand') || msg.includes('block') || msg.includes('supply')) {
+                handleMaterialsQuery(userMessage);
+            } else if (msg.includes('boq') || msg.includes('quotation') || msg.includes('estimate') || msg.includes('cost')) {
+                handleBOQQuery(userMessage);
+            } else {
+                // Default greeting or general question
+                const defaultResponse = `Hello! I'm ELM Civil Assistant. I can help with:
+                <div class="engineering-box">
+                <ul>
+                <li><strong>Soil & Geotechnical:</strong> Tests, bearing capacity, site assessment</li>
+                <li><strong>Foundations:</strong> Type selection, design guidance</li>
+                <li><strong>Concrete:</strong> Grade selection, mix design</li>
+                <li><strong>Structural:</strong> Beams, columns, slabs (safety-critical escalated)</li>
+                <li><strong>Materials Supply:</strong> Cement, steel, blocks, electrical, plumbing</li>
+                <li><strong>BOQ & Estimation:</strong> Cost planning, material quantities</li>
+                <li><strong>Project Support:</strong> Timelines, scheduling, site supervision</li>
+                </ul>
+                </div>
+                What can I help you with today?`;
+                
+                appendMessage('ai', defaultResponse, [
+                    { text: 'Soil & Foundation', action: 'soil-start', class: 'btn-secondary' },
+                    { text: 'Concrete Design', action: 'concrete-start', class: 'btn-secondary' },
+                    { text: 'Materials Supply', action: 'materials-start', class: 'btn-secondary' },
+                    { text: 'Cost Estimate', action: 'boq-start', class: 'btn-secondary' }
+                ]);
+            }
+        }
+
+        // ===== BUTTON HANDLER =====
+        chat.addEventListener('click', function(e) {
+            const btn = e.target.closest('button');
+            if (!btn || !btn.dataset.action) return;
+
+            const action = btn.dataset.action;
+            // Log user choice
+            appendMessage('user', btn.textContent);
+
+            // Route actions
+            if (action === 'soil-start') {
+                handleSoilQuery();
+            } else if (action === 'concrete-start') {
+                handleConcreteQuery();
+            } else if (action === 'materials-start') {
+                handleMaterialsQuery();
+            } else if (action === 'boq-start') {
+                handleBOQQuery();
+            } else if (action === 'floors-1-2') {
+                sessionState.floors = '1-2';
+                appendMessage('ai', 'For a 1-2 storey building with good soil, <strong>Strip or Pad foundations</strong> are typically sufficient. Do you have soil test results?', [
+                    { text: 'Yes, I have results', action: 'has-soil-results', class: 'btn-primary' },
+                    { text: 'No, proceed with assumptions', action: 'no-soil-results', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'floors-3-5') {
+                sessionState.floors = '3-5';
+                appendMessage('ai', 'For a 3-5 storey building, <strong>Raft or Pad foundations</strong> are common. Soil test is important to determine bearing capacity.', [
+                    { text: 'Good soil - Pad foundation', action: 'good-soil', class: 'btn-secondary' },
+                    { text: 'Weak soil - Raft foundation', action: 'weak-soil', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'floors-6plus') {
+                sessionState.floors = '6+';
+                appendMessage('ai', 'For high-rise (6+ storeys), <strong>Raft or Pile foundations</strong> are recommended based on soil conditions. Professional structural design is essential.', [
+                    { text: 'Proceed with design', action: 'design-proceed', class: 'btn-primary' },
+                    { text: 'Contact engineer', action: 'contact-engineer', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'grade-foundation') {
+                appendMessage('ai', '<strong>Foundation concrete:</strong> C25/30 is standard. For heavy loads or poor soil, use C30/37. Ready to proceed with material ordering?', [
+                    { text: 'Order materials', action: 'materials-start', class: 'btn-primary' },
+                    { text: 'Ask more details', action: 'more-info', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'grade-slab') {
+                appendMessage('ai', '<strong>Slab concrete:</strong> C25/30 for general floors. C30/37 if heavy loads or machinery expected.', [
+                    { text: 'Confirm & order', action: 'materials-start', class: 'btn-primary' },
+                    { text: 'Custom inquiry', action: 'custom-inquiry', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'grade-beams') {
+                appendMessage('ai', '<strong>Beam & Column concrete:</strong> C30/37 minimum for structural safety. Ensure proper cover, curing, and reinforcement placement.', [
+                    { text: 'Proceed with design', action: 'design-proceed', class: 'btn-primary' },
+                    { text: 'Material inquiry', action: 'materials-start', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'grade-highrise') {
+                appendMessage('ai', '<strong>High-rise concrete:</strong> C35/45 or higher, with rigorous QC. Professional testing and supervision required throughout construction.', [
+                    { text: 'Engage structural engineer', action: 'contact-engineer', class: 'btn-danger' },
+                    { text: 'Material planning', action: 'materials-start', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'mat-concrete') {
+                appendMessage('ai', 'For <strong>Concrete Materials:</strong> I need quantities for Cement (bags), Sand (tonnes), Granite (tonnes), and Water access. What are your requirements?');
+            } else if (action === 'mat-steel') {
+                appendMessage('ai', '<strong>Steel Reinforcement:</strong> Specify diameter (8mm, 10mm, 12mm, etc.), type (deformed, plain), and total weight (tonnes). High-yield strength steel (460 MPa) recommended.', [
+                    { text: 'Provide specifications', action: 'spec-steel', class: 'btn-primary' },
+                    { text: 'Get standard quotation', action: 'std-quote', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'mat-blocks') {
+                appendMessage('ai', '<strong>Blocks & Masonry:</strong> We supply hollow blocks (100mm, 150mm, 200mm), solid blocks, interlocking pavers. How many blocks do you need?', [
+                    { text: 'Residential (count)', action: 'res-blocks', class: 'btn-secondary' },
+                    { text: 'Commercial (tonnage)', action: 'com-blocks', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'mat-mep') {
+                appendMessage('ai', '<strong>MEP Materials:</strong> Electrical (cables, conduits, breakers), Plumbing (pipes, fittings, valves), Roofing (sheets, trusses). Which category?', [
+                    { text: 'Electrical', action: 'mep-electrical', class: 'btn-secondary' },
+                    { text: 'Plumbing', action: 'mep-plumbing', class: 'btn-secondary' },
+                    { text: 'Roofing', action: 'mep-roofing', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'boq-drawings') {
+                appendMessage('ai', 'Please share your drawings (DWG, PDF, JPG). Once received, I can generate a detailed BOQ with material schedules and cost breakdown.', [
+                    { text: 'Upload file', action: 'upload-file', class: 'btn-primary' },
+                    { text: 'Continue without', action: 'boq-manual', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'boq-manual') {
+                appendMessage('ai', 'Provide project details: Building type, dimensions, no. of storeys, and I\'ll generate an estimation template with typical quantities.', [
+                    { text: 'Residential (3-storey)', action: 'boq-res', class: 'btn-secondary' },
+                    { text: 'Commercial (5-storey)', action: 'boq-com', class: 'btn-secondary' },
+                    { text: 'Industrial (single-storey)', action: 'boq-ind', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'safety-summary') {
+                appendMessage('ai', 'Preparing technical summary for structural assessment. Please confirm: Issue type, location, dimensions, and any previous damage history.', [
+                    { text: 'Download summary template', action: 'download-template', class: 'btn-primary' }
+                ]);
+            } else if (action === 'urgent-notify') {
+                appendMessage('ai', '<strong>Notifying on-call team now.</strong><br>We have alerted the on-call site manager and requested immediate assessment. Please call local emergency services if the situation is life-threatening. Would you like me to prepare an incident summary for email or SMS?', [
+                    { text: 'Prepare incident summary', action: 'incident-summary', class: 'btn-primary' },
+                    { text: 'I will call emergency services', action: 'call-emergency', class: 'btn-secondary' }
+                ]);
+                sessionState.lastUrgent.notified = true;
+            } else if (action === 'urgent-stable') {
+                appendMessage('ai', 'Thanks for confirming. Please provide more details about the issue (location, photograph, dimensions) so I can prepare a technical summary or next-step guidance.');
+                sessionState.lastUrgent.checked = true;
+            } else if (action === 'contact-engineer') {
+                appendMessage('ai', '<strong>Contact Information:</strong><br>ELM Engineering & Project<br>Phone: +234 (0)1-XXX-XXXX<br>Email: info@elmeng.com<br><strong>We recommend connecting with our structural engineering team for on-site assessment.</strong>', [
+                    { text: 'Back to menu', action: 'menu', class: 'btn-secondary' }
+                ]);
+            } else if (action === 'menu') {
+                aiResponse('help');
+            } else if (action === 'design-proceed') {
+                appendMessage('ai', 'Great! To finalize the design, I need: 1) Soil test report (or location), 2) Exact building dimensions, 3) Load specifications. Ready?', [
+                    { text: 'Continue design', action: 'design-continue', class: 'btn-primary' }
+                ]);
+            } else if (action === 'custom-inquiry') {
+                appendMessage('ai', 'I\'m ready to help. What specific concrete grade or mix design question do you have?');
+            } else {
+                appendMessage('ai', 'Action processed. How else can I assist with your project?');
+            }
+        });
+
+        // ===== FORM SUBMISSION =====
+        sendBtn.addEventListener('click', function() {
+            const userMsg = orderInput.value.trim();
+            if (!userMsg) return;
+
+            appendMessage('user', userMsg);
+            aiResponse(userMsg);
+            orderInput.value = '';
+        });
+
+        orderInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendBtn.click();
+            }
+        });
+
+        // ===== WELCOME MESSAGE ON LOAD =====
+        window.addEventListener('load', function() {
+            const welcomeMsg = `Welcome to <strong>ELM Civil Assistant</strong>! 🏗️<br>
+            <strong>ELM Engineering and Project</strong> – Where Quality Meets Structural Integrity.<br><br>
+            I'm your AI engineering advisor for:
+            <div class="engineering-box">
+            <ul>
+            <li>Civil & Structural Engineering Guidance</li>
+            <li>Foundation & Geotechnical Design</li>
+            <li>Building Materials Supply (all categories)</li>
+            <li>BOQ Preparation & Cost Estimation</li>
+            <li>Construction Support & Project Supervision</li>
+            </ul>
+            </div>
+            <strong>How can I support your project today?</strong>`;
+            
+            appendMessage('ai', welcomeMsg, [
+                { text: 'Soil & Foundation', action: 'soil-start', class: 'btn-secondary' },
+                { text: 'Concrete Design', action: 'concrete-start', class: 'btn-secondary' },
+                { text: 'Materials Supply', action: 'materials-start', class: 'btn-secondary' },
+                { text: 'Cost Estimate', action: 'boq-start', class: 'btn-secondary' }
+            ]);
+        });
+    </script>
+</body>
+</html>
